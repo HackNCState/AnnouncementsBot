@@ -1,0 +1,30 @@
+{
+  "name": "announcementsbot",
+  "version": "0.0.1",
+  "description": "discord bot for hack_ncstate",
+  "main": "./src/app.js",
+  "scripts": {
+    "start": "node ./src/app.js",
+    "debug": "nodemon ./src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HackNCState/AnnouncementsBot.git"
+  },
+  "author": "Hack_NCState / Aarya Rajoju",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HackNCState/AnnouncementsBot/issues"
+  },
+  "homepage": "https://github.com/HackNCState/AnnouncementsBot#readme",
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "node-schedule": "^2.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
