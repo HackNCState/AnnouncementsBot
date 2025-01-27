@@ -63,7 +63,20 @@ async function scheduleAnnouncements() {
                 
                 // type 1 for plain text
                 if (type == 1) {
-                    channel.send(`${title}: ${description}. [${location}, ${eventTime}]`);
+                    let message = '';
+                    if (title) {
+                        message += `**${title}**`;
+                        if (description) { message += `: ${description} `; }
+                    } else if (description) { message += `${description} `; }
+                    let locationTime = '';
+                    if (location) { locationTime += `*${location}*`; }
+                    if (eventTime) {
+                        if (location) { locationTime += `, *${eventTime}*`; } 
+                        else { ocationTime += `*${eventTime}*`; }
+                    }
+                    if (locationTime) { message += `[${locationTime}]`; }
+                    
+                    channel.send(message);
                 } 
 
                 // type 2 for embed message
