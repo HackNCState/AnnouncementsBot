@@ -12,7 +12,7 @@ async function fetchData(auth, sheetsID) {
 
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = sheetsID; 
-    const range = 'Sheet1!A2:J'; 
+    const range = 'Sheet1!A2:K'; 
 
     try {
         const response = await sheets.spreadsheets.values.get({
@@ -26,7 +26,7 @@ async function fetchData(auth, sheetsID) {
             return [];
         }
     
-        return rows.map(([date, time, type, title, description, location, eventTime, url, thumbnailURL, imageURL]) => ({
+        return rows.map(([date, time, type, title, description, location, eventTime, url, thumbnailURL, imageURL, severity]) => ({
             date,
             time,
             type: Number(type), 
@@ -37,6 +37,7 @@ async function fetchData(auth, sheetsID) {
             url,
             thumbnailURL,
             imageURL,
+            severity,
         }));
     } 
     catch (error) {
@@ -55,7 +56,7 @@ async function scheduleAnnouncements() {
         const channel = await client.channels.fetch(config.announcementsChannelID);
         const announcements = await fetchData(auth, config.sheetsID);
 
-        announcements.forEach(({ date, time, type, title, description, location, eventTime, url, thumbnailURL, imageURL }) => {
+        announcements.forEach(({ date, time, type, title, description, location, eventTime, url, thumbnailURL, imageURL, severity }) => {
             
             const [hour, minute] = time.split(':').map(Number);
 
@@ -63,7 +64,28 @@ async function scheduleAnnouncements() {
                 
                 // type 1 for plain text
                 if (type == 1) {
-                    channel.send(`${title}: ${description}. [${location}, ${eventTime}]`);
+                    let message = '';
+                    if (title) {
+                        message += `**${title}**`;
+                        if (description) { message += `: ${description} `; }
+                    } else if (description) { message += `${description} `; }
+                    let locationTime = '';
+                    if (location) { locationTime += `*${location}*`; }
+                    if (eventTime) {
+                        if (location) { locationTime += `, *${eventTime}*`; } 
+                        else { ocationTime += `*${eventTime}*`; }
+                    }
+                    if (locationTime) { message += `[${locationTime}]`; }
+
+
+                    if (severity == 1){
+                        channel.send(`<@&${config.announcementsRoleID}> - ${message}`);
+                    } else if (severity == 2){
+                        channel.send(`@everyone - ${message}`);
+                    } else {
+                        channel.send(message);
+                    }
+
                 } 
 
                 // type 2 for embed message
@@ -72,18 +94,24 @@ async function scheduleAnnouncements() {
                     const embed = new EmbedBuilder()
                         .setColor('#BC271B')
                         .setTitle(title)
-                        .setDescription(description)
+                        .setDescription(description);
 
                     if (url) { embed.setURL(url); }                
-                    if (thumbnailURL) { embed.setThumbnail(thumbnailURL); }                
+                    if (thumbnailURL) { embed.setThumbnail(thumbnailURL); }
                     if (imageURL) { embed.setImage(imageURL); }
-
+                    
                     const fields = [];
                     if (location) { fields.push({ name: 'Location', value: location, inline: true }); }
-                    if (time) { fields.push({ name: 'Time', value: time, inline: true }); }
+                    if (time) { fields.push({ name: 'Time', value: eventTime, inline: true }); }
                     if (fields.length > 0) { embed.addFields(fields); }
                     
-                    channel.send({ embeds: [embed] });
+                    if (severity == 1){
+                        channel.send({ content: `<@&${config.announcementsRoleID}>`, embeds: [embed] });
+                    } else if (severity == 2){
+                        channel.send({ content: "@everyone", embeds: [embed] });
+                    } else {
+                        channel.send({ embeds: [embed] });
+                    }
                 }
             });
 
@@ -98,7 +126,7 @@ async function scheduleAnnouncements() {
 
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
-    scheduleAnnouncements();
+    scheduleAnnouncements(); 
 });
 
 client.login(config.discordBotToken);
