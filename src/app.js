@@ -79,9 +79,9 @@ async function scheduleAnnouncements() {
 
 
                     if (severity == 1){
-                        channel.send(`@everyone - ${message}`);
-                    } else if (severity == 2){
                         channel.send(`<@&${config.announcementsRoleID}> - ${message}`);
+                    } else if (severity == 2){
+                        channel.send(`@everyone - ${message}`);
                     } else {
                         channel.send(message);
                     }
