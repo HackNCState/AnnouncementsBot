@@ -1,6 +1,6 @@
 .env
 
-discordannouncementsbot-37dea61d1483.json
+src/*.json
 
 # Logs
 logs

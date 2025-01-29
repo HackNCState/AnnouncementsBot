@@ -22,9 +22,8 @@ date time type title description location eventTime URL thumbnailURL imageURL
 ## How to run the bot
 
 1. clone the repo locally
-2. edit the `.env.example` file by adding the bot token and renaming it to `.env`
-3. create a Google Cloud application and enable the sheets API, download the auth file, and place it in the repo; add this location in the config.
-4. edit the `src/config.js` to replace the `sheetsID` and the `announcementsChannelID` 
-5. in a terminal, run `npm run start` or `npm run dev` (if you're actively developing)
+2. create a Google Cloud application and enable the sheets API, download the auth file, and place it in the repo
+3. edit the `.env.example` file by adding the bot token and other necessary config data and renaming it to `.env`
+4. in a terminal, run `npm run start` or `npm run dev` (if you're actively developing)
 
 ---
