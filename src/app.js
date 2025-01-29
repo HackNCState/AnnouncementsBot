@@ -5,7 +5,7 @@ const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const schedule = require('node-schedule');
 const { google } = require('googleapis');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds], disableEveryone: false });
 
 
 async function fetchData(auth, sheetsID) {
@@ -73,7 +73,7 @@ async function scheduleAnnouncements() {
                     if (location) { locationTime += `*${location}*`; }
                     if (eventTime) {
                         if (location) { locationTime += `, *${eventTime}*`; } 
-                        else { ocationTime += `*${eventTime}*`; }
+                        else { locationTime += `*${eventTime}*`; }
                     }
                     if (locationTime) { message += `[${locationTime}]`; }
 
