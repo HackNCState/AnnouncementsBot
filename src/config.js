@@ -7,6 +7,7 @@ const config = {
     announcementsChannelID: process.env.CHANNEL_ID,
     googleAPIKeyFile: process.env.SERVICE_ACC_AUTH_PATH,
     sheetsID: process.env.SHEETS_ID,
+    announcementsRoleID: '',
 };
 
 module.exports = config;
