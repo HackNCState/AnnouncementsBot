@@ -26,10 +26,4 @@ date time type title description location eventTime URL thumbnailURL imageURL
 3. edit the `.env.example` file by adding the bot token and other necessary config data and renaming it to `.env`
 4. in a terminal, run `npm run start` or `npm run dev` (if you're actively developing)
 
-## How to run the bot (Docker)
-
-1. pull Docker image
-2. pass in the environment variables and mount the auth file
-3. spin up the container
-
 ---
