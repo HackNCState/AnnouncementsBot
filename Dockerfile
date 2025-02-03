@@ -1,5 +1,5 @@
 # Use the official Node.js image as the base image
-FROM node:23.7.0
+FROM arm64v8/node:23.7.0
 
 WORKDIR /app
 
