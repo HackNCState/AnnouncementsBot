@@ -59,8 +59,9 @@ async function scheduleAnnouncements() {
         announcements.forEach(({ date, time, type, title, description, location, eventTime, url, thumbnailURL, imageURL, severity }) => {
             
             const [hour, minute] = time.split(':').map(Number);
+            const [year, month, day] = date.split('-').map(Number); // changed to manual parsing for consistency's sake
 
-            schedule.scheduleJob({ year: new Date(date).getFullYear(), month: new Date(date).getMonth(), day: new Date(date).getDate(), hour, minute }, () => {
+            schedule.scheduleJob({ year, month: month - 1, date: day, hour, minute }, () => {
                 
                 // type 1 for plain text
                 if (type == 1) {
