@@ -103,7 +103,7 @@ async function scheduleAnnouncements() {
                     
                     const fields = [];
                     if (location) { fields.push({ name: 'Location', value: location, inline: true }); }
-                    if (time) { fields.push({ name: 'Time', value: eventTime, inline: true }); }
+                    if (eventTime) { fields.push({ name: 'Time', value: eventTime, inline: true }); }
                     if (fields.length > 0) { embed.addFields(fields); }
                     
                     if (severity == 1){
